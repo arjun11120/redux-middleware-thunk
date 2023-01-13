@@ -45,7 +45,7 @@ export const dataInfo =(state ,action) =>{
 }
 
 const rootReducer = combineReducers({
-  Counter : Counter
+  Counter
 })
 
 export default rootReducer
