@@ -1,6 +1,10 @@
+import { combineReducers } from 'redux'
+
+
+
 const initialState = 0;
-const Reducer = (state , action)=>{
-  switch(action.type){
+export const Counter = (state, action) => {
+  switch (action.type) {
     case 'increment':
       return state + 1;
     case 'decrement':
@@ -8,10 +12,40 @@ const Reducer = (state , action)=>{
     case 'double':
       return state * 2;
     case 'reset':
-      return 0 ;
+      return 0;
     default:
       return initialState;
   }
 };
+const inint = {
+  data: [],
+  error: '',
+  loading: false
+};
+export const dataInfo =(state ,action) =>{
+  switch (action.type) {
+    case 'set-data':
+      return {
+        ...state,
+        data: action.payload
+      }
+    case 'loading':
+      return {
+        ...state,
+        loading: action.payload
+      }
+    case 'error':
+      return {
+        ...state,
+        error: action.payload
+      }
+    default:
+      return inint;
+  }
+}
 
-export default Reducer
+const rootReducer = combineReducers({
+  Counter : Counter
+})
+
+export default rootReducer
