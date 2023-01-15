@@ -2,7 +2,11 @@ import { combineReducers } from 'redux'
 
 
 
-const initialState = 0;
+const intialState = {
+  num: 0,
+  data: null,
+  error: ""
+}
 export const Counter = (state, action) => {
   switch (action.type) {
     case 'increment':
@@ -13,39 +17,32 @@ export const Counter = (state, action) => {
       return state * 2;
     case 'reset':
       return 0;
+    case "FetchData":
+       return { ...state, data: action.data }
+    case "ERROR":
+        return { ...state, error: action.msg }
     default:
-      return initialState;
+      return intialState;
   }
 };
-const inint = {
-  data: [],
-  error: '',
-  loading: false
-};
-export const dataInfo =(state ,action) =>{
-  switch (action.type) {
-    case 'set-data':
-      return {
-        ...state,
-        data: action.payload
-      }
-    case 'loading':
-      return {
-        ...state,
-        loading: action.payload
-      }
-    case 'error':
-      return {
-        ...state,
-        error: action.payload
-      }
-    default:
-      return inint;
+
+
+export const fetchData = () => {
+
+  return (dispatch) => {
+      return fetch('https://jsonplaceholder.typicode.com/todos/1')
+          .then(response => response.json())
+          .then(json => dispatch(
+              { type: "FetchData", data: json }))
+          .catch(err => dispatch(
+              { type: "ERROR",msg: "Unable to fetch data" }))
   }
+
 }
 
 const rootReducer = combineReducers({
-  Counter
+  Counter,
+  fetchData
 })
 
 export default rootReducer

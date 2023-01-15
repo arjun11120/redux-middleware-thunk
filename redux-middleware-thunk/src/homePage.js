@@ -1,21 +1,31 @@
-// import React, { useEffect } from 'react'
-// import { useDispatch, useSelector } from 'react-redux';
-// import getDataInfo from './redux/api';
+import React, { Component } from 'react';
+import { useEffect } from 'react'
+import { connect } from 'react-redux'
+import { fetchData } from './actions'
 
-function homePage() {
-
-    // const [activeState,setActiveState] = useState('all');
-    // const dispatch = useDispatch();
-    // const data = useSelector =useSelector(state => state.dataInfo.data);
-
-    // useEffect(()=>{
-    //     getDataInfo();
-    // }, []);
+export function homePage() {
+  useEffect(()=>{
+    mapDispatchprops.onFetchData()
+    }, []);
   return (
-    <div>
-      <h1>ITS WORKING</h1>
-    </div>
+      <div className="">
+        <h1>Fetching the data from the backend</h1>
+        {this.props.error && <p>{this.props.error}</p>}
+
+        {this.props.data && <ul>
+          <li>id: {this.props.data.id}</li>
+          <li>title: {this.props.data.title}</li>
+        </ul>}
+      </div>
   )
 }
 
-export default homePage
+const mapStatetoProps = (state) => {
+  return { num: state.num, data: state.data, error: state.error }
+}
+const mapDispatchprops = (dispatch) => {
+  return { onFetchData: () => dispatch(fetchData()) }
+}
+
+
+export default connect(mapStatetoProps, mapDispatchprops)(homePage);
